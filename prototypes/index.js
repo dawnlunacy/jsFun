@@ -24,21 +24,32 @@ const kittyPrompts = {
     
     // Return an array of just the names of kitties who are orange e.g.
     // ['Tiger', 'Snickers']
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = kitties.filter((orangekitten) => {
+      if(orangekitten.color === 'orange') {
+        return orangekitten;
+      }
+    }).map((kitten) => {
+      return kitten.name;
+    });
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // filter through array and return the element (obj) where..
+    //..the kitten color is oarnge and then map through that object and return the..
+    //..value of the key name in each into an array
   },
 
   sortByAge() {
     // Sort the kitties by their age
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = kitties.sort(function(a,b){
+      return b.age - a.age;
+    });
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // sort by age from oldest to youngest, 
+    // return as an array of objects 
   },
 
   growUp() {
@@ -55,7 +66,12 @@ const kittyPrompts = {
     // },
     // ...etc]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = kitties.sort(function(a,b){
+      return b.age - a.age;
+    }).map(function (kitten){
+      kitten.age = kitten.age +2;
+      return kitten;
+    });
     return result;
   }
 };
@@ -87,8 +103,14 @@ const clubPrompts = {
     //   ...etc
     // }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
-    return result;
+    let person = {};
+    clubs.forEach(club => club.members.forEach(name => {
+      if(!person[name]) {
+        person[name] = [];
+      } person[name].push(club.club);
+    }));
+  
+    return person;
 
     // Annotation:
     // Write your annotation here as a comment
@@ -123,11 +145,14 @@ const modPrompts = {
     //   { mod: 4, studentsPerInstructor: 8 }
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
-    return result;
+    let newArray = [];
+    mods.forEach(mod => {
+      newArray.push({mod:mod.mod, studentsPerInstructor:mod.students/mod.instructors});
+    });
+    return newArray;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // create an empty array
   }
 };
 
@@ -158,7 +183,10 @@ const cakePrompts = {
     //    ..etc
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = [];
+    cakes.forEach(cake => {
+      result.push({flavor: cake.cakeFlavor, inStock: cake.inStock});
+    });
     return result;
 
     // Annotation:
@@ -186,7 +214,7 @@ const cakePrompts = {
     // ..etc
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = cakes.filter(cake => cake.inStock > 0);
     return result;
 
     // Annotation:
@@ -197,7 +225,8 @@ const cakePrompts = {
     // Return the total amount of cakes in stock e.g.
     // 59
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = cakes.reduce((a,b) => 
+      a + b.inStock, 0);
     return result;
 
     // Annotation:
@@ -208,12 +237,18 @@ const cakePrompts = {
     // Return an array of all unique toppings (no duplicates) needed to bake
     // every cake in the dataset e.g.
     // ['dutch process cocoa', 'toasted sugar', 'smoked sea salt', 'berries', ..etc]
-
-    const result = 'REPLACE WITH YOUR RESULT HERE';
-    return result;
+    let toppingArray = []
+    const result = cakes.forEach(cake => {
+      cake.toppings.forEach(topping => {
+        toppingArray.push(topping);
+      });
+    });
+    return [...new Set(toppingArray)];
 
     // Annotation:
-    // Write your annotation here as a comment
+    // make an empty array
+    //filter cakes and for toppings 
+    //filter topings and push each into empty array unless it is allready there
   },
 
   groceryList() {
@@ -226,9 +261,18 @@ const cakePrompts = {
     //    'berries': 2, 
     //    ...etc
     // }
+    let groceries = {};
+    const result = cakes.forEach(cake => {
+      cake.toppings.forEach(topping => {
+        if (!groceries[topping]) {
+          groceries[topping] = 1;
+        } else {
+          groceries[topping] ++;
+        }
+      });
+    });
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
-    return result;
+    return groceries;
 
     // Annotation:
     // Write your annotation here as a comment
