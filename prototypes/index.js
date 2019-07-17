@@ -237,7 +237,7 @@ const cakePrompts = {
     // Return an array of all unique toppings (no duplicates) needed to bake
     // every cake in the dataset e.g.
     // ['dutch process cocoa', 'toasted sugar', 'smoked sea salt', 'berries', ..etc]
-    let toppingArray = []
+    let toppingArray = [];
     const result = cakes.forEach(cake => {
       cake.toppings.forEach(topping => {
         toppingArray.push(topping);
@@ -306,7 +306,7 @@ const classPrompts = {
     //   { roomLetter: 'G', program: 'FE', capacity: 29 }
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = classrooms.filter(classroom => classroom.program === 'FE');
     return result;
 
     // Annotation:
@@ -320,8 +320,23 @@ const classPrompts = {
     //   feCapacity: 110,
     //   beCapacity: 96
     // }
+    const result = classrooms.reduce((acc, classroom) => {
+      if(!acc.beCapacity) {
+        acc.beCapacity = 0
+      }
+      if(!acc.feCapacity) {
+        acc.feCapacity = 0
+      }
+      if(classroom.program === 'BE') {
+        acc.beCapacity += classroom.capacity;
+      }
+      if(classroom.program === 'FE') {
+        acc.feCapacity += classroom.capacity;
+      }
+      return acc
+    },{})
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+  
     return result;
 
     // Annotation:
@@ -330,13 +345,16 @@ const classPrompts = {
 
   sortByCapacity() {
     // Return the array of classrooms sorted by their capacity (least capacity to greatest)
+      
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = classrooms.sort(function(a, b) {
+      return a.capacity - b.capacity;
+    });
     return result;
-
-    // Annotation:
-    // Write your annotation here as a comment
   }
+  // Annotation:
+  // sort return the same array organized as described above.
+
 };
 
 
@@ -353,7 +371,7 @@ const classPrompts = {
 
 
 
-
+  
 
 // DATASET: breweries from ./datasets/breweries
 const breweryPrompts = {
@@ -361,7 +379,12 @@ const breweryPrompts = {
     // Return the total beer count of all beers for every brewery e.g.
     // 40
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = breweries.reduce(function(totalBeer, brewery) {
+      brewery.beers.forEach(function(beer) {
+        totalBeer ++;
+      });
+      return totalBeer;
+    },0);
     return result;
 
     // Annotation:
@@ -377,7 +400,12 @@ const breweryPrompts = {
     // ...etc.
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = breweries.map((brewery) => {
+      return {
+        name:(brewery.name),
+        beerCount:(brewery.beers.length)
+      };
+    });
     return result;
 
     // Annotation:
@@ -389,11 +417,17 @@ const breweryPrompts = {
     // e.g.
     // { name: 'Barrel Aged Nature\'s Sweater', type: 'Barley Wine', abv: 10.9, ibu: 40 }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = breweries.map((brewery) => brewery.beers).flat().sort((a,b) => {
+      return b.abv - a.abv;})[0];
+
     return result;
 
+
     // Annotation:
-    // Write your annotation here as a comment
+    // First make an array of the beer objects and flatten it out so it is one array. 
+    //Then sort them from highest to lowest
+    //Then select the index of zero grab the highest object
+    //when using sort make sure you use RETURN***
   }
 };
 
@@ -437,7 +471,13 @@ const turingPrompts = {
     //  { name: 'Robbie', studentCount: 18 }
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = instructors.map((instructor) => {
+      return { name: instructor.name,
+        studentCount: cohorts.find((cohort) => {
+          return cohort.module === instructor.module;
+        }).studentCount
+      }
+    });
     return result;
 
     // Annotation:
@@ -451,7 +491,11 @@ const turingPrompts = {
     // cohort1804: 10.5
     // }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = cohorts.reduce((ratio, currentCohort) => {
+      ratio['cohort' + currentCohort.cohort] = currentCohort.studentCount / instructors.filter(instructor => currentCohort.module === instructor.module).length
+      return ratio
+    },{});
+
     return result;
 
     // Annotation:
@@ -473,7 +517,27 @@ const turingPrompts = {
     //     Will: [1, 2, 3, 4]
     //   }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = instructors.reduce((a, b) => {
+      a[b.name] = [] 
+      cohorts.forEach(cohort => {
+      if(cohort.curriculum.some(topic => b.teaches.includes(topic))) {
+        a[b.name].push(cohort.module)
+        }
+      })   
+      return a;
+    }, {})
+
+    // const result = instructors.reduce((skills, instructor) => {
+    //   skills[instructor.name] = cohorts.reduce((total, cohort) => {
+    //     cohort.curriculum.forEach((topic) => {
+    //       if(instructor.teaches.includes(topic) && !total.includes(cohort.module)) {
+    //         total.push(cohort.module);
+    //       }
+    //     });
+    //     return total;
+    //   },[]);
+    //   return skills;
+    // },{});
     return result;
 
     // Annotation:
@@ -490,7 +554,23 @@ const turingPrompts = {
     //   recursion: [ 'Pam', 'Leta' ]
     // }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = cohorts.reduce((topics, cohort) => {
+      cohort.curriculum.forEach((topic) => {
+        if (!topics[topic]) {
+          topics[topic] = []
+        } 
+        instructors.forEach((instructor) => {
+          if (instructor.teaches.includes(topic) && !topics[topic].includes(instructor.name)) {
+            topics[topic].push(instructor.name)
+          }
+        })
+
+        })
+
+      return topics
+    }, {});
+
+    
     return result;
 
     // Annotation:
