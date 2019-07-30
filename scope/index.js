@@ -1,4 +1,4 @@
-const scope = {
+ const scope = {
   exerciseA() {
     let personA = 'Paul';
     let personB = 'Ben';
@@ -228,11 +228,11 @@ const scope = {
 
     // Log D: fruit
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = [{A:'mango'},{B:'mango'},{C:'strawberry'},{D:'mango'}];
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // I do not understand this one. And var fruit and const fruit are totally different things, correct?
   },
 
   exerciseH() {

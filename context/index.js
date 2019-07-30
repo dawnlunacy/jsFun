@@ -16,7 +16,7 @@ const context = {
 
 
     // What is the value of `this` when we call ship.fly()?
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = 'global window object';
     return result;
 
     // Annotation:
@@ -30,11 +30,11 @@ const context = {
     }
     
     // What is the value of `this` when we call fn()?
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = 'global window object';
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // **But why? this is inside of the function?
   },
 
   exerciseC() {
@@ -49,7 +49,7 @@ const context = {
     el.addEventListener('click', car.getInfo);
 
     // What is the value of `this` when a user clicks on our element and car.getInfo() is triggered?
-    const result = "el";
+    const result = 'el';
     return result;
 
     // Annotation: 
@@ -72,11 +72,11 @@ const context = {
     var breed = dog.getBreed();
 
     // What is the value of `this` when we call breed()?
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = 'global window object';
     return result;
 
     // Annotation: 
-    // Write your annotation here as a comment
+    // thought it would be chihuahua, why is it gwo?
   },
 
   exerciseE() {
@@ -88,7 +88,7 @@ const context = {
 
 
     // What is the value of `this` when we call fn()?
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = 'global window object';
     return result;
 
     // Annotation: 
@@ -111,11 +111,11 @@ const context = {
     const storm = new Hero('Ororo', 'weather control', true);
 
     // What is the value of `this` when we call storm.identifyHero()?
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = 'instance of Hero';
     return result;
 
     // Annotation: 
-    // Write your annotation here as a comment
+    // careful on capitalization on an instance of a class, important distinction.
   },
 
   exerciseG() {
@@ -139,11 +139,11 @@ const context = {
 
 
     // What is the value of `this` when we call monopoly.restart()?
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = 'global window object';
     return result;
 
     // Annotation: 
-    // Write your annotation here as a comment
+    // ** why is this not at instance of Game?! ** 
   },
 
   exerciseH() {
@@ -159,7 +159,7 @@ const context = {
     obj.method();
 
     // What is the value of `this` when we call obj.arrowFunction()?
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = 'obj';
     return result;
 
     // Annotation: 
@@ -182,7 +182,7 @@ const context = {
     }, poets);
 
     // What is the value of `this` that gets returned on each iteration of poets.map()?
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = 'poets';
     return result;
 
     // Annotation: 
@@ -196,7 +196,7 @@ const context = {
     });
 
     // What is the value of `this` when a user clicks on our #btn element and the callback is triggered?
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = 'el';
     return result;
 
     // Annotation: 
@@ -205,14 +205,14 @@ const context = {
 
   exerciseK() {
     var store = {
-      fruit: "grapes",
+      fruit: 'grapes',
       sellMe: function() {
         return this.fruit;
       }
-    }
+    };
 
     // What is the value of `this` when we call store.sellMe()?
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = 'store';
     return result;
 
     // Annotation: 
@@ -227,12 +227,12 @@ const context = {
 
         setTimeout(function() {
           console.log('Your dog is a ' + _this.breed);
-        }) 
+        });
       }
     };
 
     // What is the value of `this` when we call dog.getBreed()?
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = 'dog';
     return result;
 
     // Annotation: 
@@ -243,23 +243,23 @@ const context = {
     const robert = {
       name: 'Bobo',
       occupation: 'instructor'
-    }
+    };
 
     const william = {
       name: 'will',
       occupation: 'instructor'
-    }
+    };
 
     function makeBirdNoise() {
       console.log('My name is ' + this.name + ' ... caw! caw!');
     }
 
     // What is the value of `this` when we call makeBirdNoise.call(robert);
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = 'robert';
     return result;
 
     // Annotation: 
-    // Write your annotation here as a comment
+    // I do not understand this one at all ****** .call(robert) -- what is .call?!
   },
 
   exerciseN() {
@@ -270,7 +270,7 @@ const context = {
       }
 
       delayNoise() {
-        setTimeout(this.makeNoise.bind(this), 1000)
+        setTimeout(this.makeNoise.bind(this), 1000);
       }
 
       makeNoise() {
@@ -281,7 +281,7 @@ const context = {
     var firstBird = new Bird('Calvin', 'budgie');
 
     // What is the value of `this` when we call firstBird.delayNoise();
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = 'instance of Bird';
     return result;
 
     // Annotation: 
@@ -289,19 +289,19 @@ const context = {
   },
 
   exerciseO() {
-    const button = document.querySelector('#submit');
+    const button = $('#submit');
 
-    button.addEventListener('click', () => {
+    button.on('click', () => {
       console.log(this);
       this.classList.toggle('on');
     });
 
     // What is the value of `this` when a user clicks on our button element and the callback is triggered?
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = 'global window object';
     return result;
 
     // Annotation: 
-    // Write your annotation here as a comment
+    // Why is the test for this one acting super funky?
   },
 
   exerciseP() {
@@ -310,14 +310,14 @@ const context = {
       scream: () => {
         this.totalScreams++;
       }
-    }
+    };
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = 'global window object';
     return result;
 
     // What is the value of `this` when we call child.scream();
     // Annotation: 
-    // Write your annotation here as a comment
+    // How do I now if it is referring to the constant or the gwo when it is not a class?
   }
 };
 

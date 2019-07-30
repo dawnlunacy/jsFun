@@ -322,10 +322,10 @@ const classPrompts = {
     // }
     const result = classrooms.reduce((acc, classroom) => {
       if(!acc.beCapacity) {
-        acc.beCapacity = 0
+        acc.beCapacity = 0;
       }
       if(!acc.feCapacity) {
-        acc.feCapacity = 0
+        acc.feCapacity = 0;
       }
       if(classroom.program === 'BE') {
         acc.beCapacity += classroom.capacity;
@@ -333,8 +333,8 @@ const classPrompts = {
       if(classroom.program === 'FE') {
         acc.feCapacity += classroom.capacity;
       }
-      return acc
-    },{})
+      return acc;
+    },{});
 
   
     return result;
@@ -476,7 +476,7 @@ const turingPrompts = {
         studentCount: cohorts.find((cohort) => {
           return cohort.module === instructor.module;
         }).studentCount
-      }
+      };
     });
     return result;
 
@@ -492,8 +492,8 @@ const turingPrompts = {
     // }
 
     const result = cohorts.reduce((ratio, currentCohort) => {
-      ratio['cohort' + currentCohort.cohort] = currentCohort.studentCount / instructors.filter(instructor => currentCohort.module === instructor.module).length
-      return ratio
+      ratio['cohort' + currentCohort.cohort] = currentCohort.studentCount / instructors.filter(instructor => currentCohort.module === instructor.module).length;
+      return ratio;
     },{});
 
     return result;
@@ -518,14 +518,14 @@ const turingPrompts = {
     //   }
 
     const result = instructors.reduce((a, b) => {
-      a[b.name] = [] 
+      a[b.name] = [];
       cohorts.forEach(cohort => {
-      if(cohort.curriculum.some(topic => b.teaches.includes(topic))) {
-        a[b.name].push(cohort.module)
+        if(cohort.curriculum.some(topic => b.teaches.includes(topic))) {
+          a[b.name].push(cohort.module);
         }
-      })   
+      });
       return a;
-    }, {})
+    }, {});
 
     // const result = instructors.reduce((skills, instructor) => {
     //   skills[instructor.name] = cohorts.reduce((total, cohort) => {
@@ -557,17 +557,17 @@ const turingPrompts = {
     const result = cohorts.reduce((topics, cohort) => {
       cohort.curriculum.forEach((topic) => {
         if (!topics[topic]) {
-          topics[topic] = []
+          topics[topic] = [];
         } 
         instructors.forEach((instructor) => {
           if (instructor.teaches.includes(topic) && !topics[topic].includes(instructor.name)) {
-            topics[topic].push(instructor.name)
+            topics[topic].push(instructor.name);
           }
-        })
+        });
 
-        })
+      });
 
-      return topics
+      return topics;
     }, {});
 
     
@@ -605,7 +605,19 @@ const bossPrompts = {
     //   { bossName: 'Scar', sidekickLoyalty: 16 }
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+
+    
+
+    const result = [];
+    let bossArray = Object.values(bosses);
+    bossArray.forEach(boss => result.push({'bossName' : boss.name, 'sidekickLoyalty' : sidekicks.reduce((acc,sidekick) => {
+      if (sidekick.boss === boss.name) {
+        acc += sidekick.loyaltyToBoss;
+      }
+      return acc;
+    }, 0)}
+    ));
+    
     return result;
 
     // Annotation:
@@ -646,9 +658,18 @@ const astronomyPrompts = {
     //     lightYearsFromEarth: 640,
     //     color: 'red' }
     // ]
-
-    const result = 'REPLACE WITH YOUR RESULT HERE';
-    return result;
+    let finalStars = [];
+    const result = 
+    stars.forEach((star) => {
+      let cKeys = Object.keys(constellations); //array ['orion','ursaMajor', 'ursaMinor']
+      cKeys.forEach(key => {
+        if(constellations[key].stars.includes(star.name)) {
+          finalStars.push(star);
+        }
+      });
+    });
+ 
+    return finalStars;
 
     // Annotation:
     // Write your annotation here as a comment
@@ -665,7 +686,17 @@ const astronomyPrompts = {
     //   red: [{obj}]
     // }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = stars.reduce((totalStarColor, star) => {
+      totalStarColor[star.color].push(star);
+      return totalStarColor;
+    }, {
+      blue: [],
+      white:[],
+      yellow: [],
+      orange: [],
+      red: []
+    });
+
     return result;
 
     // Annotation:
